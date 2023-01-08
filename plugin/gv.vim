@@ -44,7 +44,7 @@ function! s:browse(url)
 endfunction
 
 function! s:tabnew()
-  execute (tabpagenr()-1).'tabnew'
+  execute 'tabnew'
 endfunction
 
 function! s:gbrowse()
