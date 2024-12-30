@@ -84,11 +84,14 @@ endfunction
 function! s:split(tab)
   if a:tab
     call s:tabnew()
-  elseif getwinvar(winnr('$'), 'gv')
-    $wincmd w
-    enew
   else
-    vertical botright new
+    let w = get(filter(range(1, winnr('$')), 'getwinvar(v:val, "gv")'), 0)
+    if w
+      execute w.'wincmd w'
+      enew
+    else
+      vertical botright new
+    endif
   endif
   let w:gv = 1
 endfunction
@@ -321,7 +324,7 @@ function! s:gv(bang, visual, line1, line2, args) abort
     return s:warn(v:exception)
   finally
     if getcwd() !=# cwd
-      cd -
+      execute cd escape(cwd, ' ')
     endif
   endtry
 endfunction
